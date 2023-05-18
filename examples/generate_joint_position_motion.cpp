@@ -16,8 +16,8 @@
  */
 
 int main(int argc, char** argv) {
-  if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " <robot-hostname>" << std::endl;
+  if (argc != 3) {
+    std::cerr << "Usage: " << argv[0] << " <robot-hostname> <execution-time>" << std::endl;
     return -1;
   }
   try {
