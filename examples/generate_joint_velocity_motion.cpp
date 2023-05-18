@@ -17,13 +17,13 @@
 
 int main(int argc, char** argv) {
   if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " <robot-hostname>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <robot-hostname> <omage-scale>" << std::endl;
     return -1;
   }
   try {
     franka::Robot robot(argv[1]);
     setDefaultBehavior(robot);
-
+    double scale = std::stod(argv[2]);
     // First move the robot to a suitable joint configuration
     std::array<double, 7> q_goal = {{0, -M_PI_4, 0, -3 * M_PI_4, 0, M_PI_2, M_PI_4}};
     MotionGenerator motion_generator(0.5, q_goal);
@@ -46,11 +46,11 @@ int main(int argc, char** argv) {
     double omega_max = 1.0;
     double time = 0.0;
     robot.control(
-        [=, &time](const franka::RobotState&, franka::Duration period) -> franka::JointVelocities {
+        [=, &time, &scale](const franka::RobotState&, franka::Duration period) -> franka::JointVelocities {
           time += period.toSec();
 
           double cycle = std::floor(std::pow(-1.0, (time - std::fmod(time, time_max)) / time_max));
-          double omega = cycle * omega_max / 2.0 * (1.0 - std::cos(2.0 * M_PI / time_max * time));
+          double omega = scale * cycle * omega_max / 2.0 * (1.0 - std::cos(2.0 * M_PI / time_max * time));
 
           franka::JointVelocities velocities = {{0.0, 0.0, 0.0, omega, omega, omega, omega}};
 
