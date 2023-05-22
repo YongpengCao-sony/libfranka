@@ -149,9 +149,9 @@ std::vector<double> ur_jntpos_conversion(std::vector<double> ur_position){
   panda_position.push_back(ur_position[1] + M_PI_2);
   panda_position.push_back(0.00);
   panda_position.push_back(-ur_position[2]);
-  panda_position.push_back(ur_position[4] + 1.57);
+  panda_position.push_back(ur_position[4] + M_PI_2);
   panda_position.push_back(-ur_position[3]);
-  panda_position.push_back(ur_position[5]);
+  panda_position.push_back(ur_position[5] + M_PI);
   
   std::cout<<"print transformed panda positions:  "<<panda_position[0]<<"  "<<panda_position[1]<<"  "<<panda_position[2]<<"  "<<panda_position[3]<<"  "<<panda_position[4]<<"  "<<panda_position[5]<<"  "<<panda_position[6]<<std::endl;
   
