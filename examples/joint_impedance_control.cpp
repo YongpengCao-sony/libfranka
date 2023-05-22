@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
       vel_current = std::fmax(vel_current, 0.0);
       vel_current = std::fmin(vel_current, vel_max);
 
-      // Compute new angle for our circular trajectory.
+      // Compute new angle for our circuimpedance_control_callbacklar trajectory.
       angle += period.toSec() * vel_current / std::fabs(radius);
       if (angle > 2 * M_PI) {
         angle -= 2 * M_PI;

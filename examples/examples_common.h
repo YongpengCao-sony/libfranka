@@ -5,11 +5,14 @@
 #include <array>
 
 #include <Eigen/Core>
-
+#include <iostream>
 #include <franka/control_types.h>
 #include <franka/duration.h>
 #include <franka/robot.h>
 #include <franka/robot_state.h>
+
+
+#include "yaml-cpp/yaml.h"
 
 /**
  * @file examples_common.h
@@ -22,6 +25,21 @@
  * @param[in] robot Robot instance to set behavior on.
  */
 void setDefaultBehavior(franka::Robot& robot);
+
+/**
+ * Convert joint angles for UR to panda.
+ *
+ * @param[in] ur_position Iuput UR joint pose.
+ */
+std::vector<double> ur_jntpos_conversion(std::vector<double> ur_position);
+
+/**
+ * Read the yaml file into waypoints format.
+ *
+ * 
+ */
+YAML::Node read_yaml_traj();
+
 
 /**
  * An example showing how to generate a joint pose motion to a goal position. Adapted from:

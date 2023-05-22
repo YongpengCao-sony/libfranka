@@ -5,9 +5,13 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <iostream>
 
 #include <franka/exception.h>
 #include <franka/robot.h>
+
+
+#include "yaml-cpp/yaml.h"
 
 void setDefaultBehavior(franka::Robot& robot) {
   robot.setCollisionBehavior(
@@ -129,4 +133,41 @@ franka::JointPositions MotionGenerator::operator()(const franka::RobotState& rob
   franka::JointPositions output(joint_positions);
   output.motion_finished = motion_finished;
   return output;
+}
+
+std::vector<double> ur_jntpos_conversion(std::vector<double> ur_position){
+  //size check
+  if (ur_position.size()!=6)
+    abort();
+
+  std::vector<double> panda_position;  
+  // ur_position.insert(ur_position.begin() + 2, 0.0);
+  // panda_position = ur_position;
+  std::cout<<"print ur positions:  "<<ur_position[0]<<"  "<<ur_position[1]<<"  "<<ur_position[2]<<"  "<<ur_position[3]<<"  "<<ur_position[4]<<"  "<<ur_position[5]<<std::endl;
+
+  panda_position.push_back(ur_position[0]);
+  panda_position.push_back(ur_position[1] + M_PI_2);
+  panda_position.push_back(0.00);
+  panda_position.push_back(-ur_position[2]);
+  panda_position.push_back(ur_position[4] + 1.57);
+  panda_position.push_back(-ur_position[3]);
+  panda_position.push_back(ur_position[5]);
+  
+  std::cout<<"print transformed panda positions:  "<<panda_position[0]<<"  "<<panda_position[1]<<"  "<<panda_position[2]<<"  "<<panda_position[3]<<"  "<<panda_position[4]<<"  "<<panda_position[5]<<"  "<<panda_position[6]<<std::endl;
+  
+  return panda_position;
+}
+
+YAML::Node read_yaml_traj(){
+  try{
+    YAML::Node config = YAML::LoadFile("trajectories/20230501_up_10_trajectory.yaml");
+    YAML::Node header = config["header"];
+    YAML::Node joint_names = config["joint_names"];
+    YAML::Node waypoints = config["points"];
+    std::cout<<"print waypoint size"<<waypoints.size()<<std::endl;
+    return joint_names, waypoints;
+  } catch (const YAML::Exception& e) {
+    std::cout<<"found error";
+    std::cout << e.what() << std::endl;
+  }
 }

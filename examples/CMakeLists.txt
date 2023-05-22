@@ -12,6 +12,8 @@ if(NOT FRANKA_IS_FOUND)
 endif()
 find_package(Eigen3 REQUIRED)
 find_package(Poco REQUIRED COMPONENTS Foundation)
+find_package(yaml-cpp REQUIRED)
+include_directories(${YAML_CPP_INCLUDE_DIRS})
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
@@ -27,6 +29,7 @@ set(EXAMPLES
   communication_test
   echo_robot_state
   force_control
+  trajectory_following
   generate_cartesian_pose_motion
   generate_cartesian_velocity_motion
   generate_consecutive_motions
@@ -43,11 +46,12 @@ set(EXAMPLES
 
 foreach(example ${EXAMPLES})
   add_executable(${example} ${example}.cpp)
-  target_link_libraries(${example} Franka::Franka examples_common Eigen3::Eigen3)
+  target_link_libraries(${example} Franka::Franka examples_common Eigen3::Eigen3 ${YAML_CPP_LIBRARIES} )
 endforeach()
 
 target_link_libraries(joint_impedance_control Threads::Threads)
 target_link_libraries(motion_with_control Poco::Foundation)
+# target_link_libraries(generate_joint_position_motion ${yaml-cpp_LIBS})
 
 include(GNUInstallDirs)
 install(TARGETS ${EXAMPLES}
