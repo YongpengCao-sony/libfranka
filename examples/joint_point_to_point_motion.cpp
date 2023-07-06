@@ -48,10 +48,15 @@ int main(int argc, char** argv) {
               << "Press Enter to continue..." << std::endl;
     std::cin.ignore();
     auto start = std::chrono::high_resolution_clock::now();
+    auto start1 = std::clock();
     auto nanosec = start.time_since_epoch();
-    std::cout << nanosec.count() << " nanoseconds since epoch\n";
+    std::cout << " nanoseconds since epoch\n";
     robot.control(motion_generator);
     auto end = std::chrono::high_resolution_clock::now();
+    auto end1 = std::clock();
+    double times = (std::clock() - start1) / CLOCKS_PER_SEC;
+    std::cout << "time spent is: " << times << std::endl;
+
     auto diff = std::chrono::duration_cast<std::chrono::seconds>(end - start);
 
     std::cout << "Motion finished" << diff.count() << std::endl;
