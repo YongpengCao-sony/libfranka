@@ -44,10 +44,13 @@ int main(int argc, char** argv) {
 
     MotionGenerator motion_generator(speed_factor, q_goal);
     std::cout << "WARNING: This example will move the robot! "
-              << "Please make sure to have the user stop button at hand!" << std::endl
-              << "Press Enter to continue..." << std::endl;
-    std::cin.ignore();
+                 // << "Please make sure to have the user stop button at hand!" << std::endl
+                 // << "Press Enter to continue..." << std::endl;
+                 std::cin.ignore();
+    auto start = std::chrono::high_resolution_clock::now();
     robot.control(motion_generator);
+    autop time_spent = std::chrono::high_resolution_clock::now() - start;
+    std::cout << "time spent for this motion is " << time_spent << std::endl;
     std::cout << "Motion finished" << std::endl;
   } catch (const franka::Exception& e) {
     std::cout << e.what() << std::endl;
