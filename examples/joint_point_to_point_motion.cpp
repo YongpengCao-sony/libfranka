@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
                  std::cin.ignore();
     auto start = std::chrono::high_resolution_clock::now();
     robot.control(motion_generator);
-    autop time_spent = std::chrono::high_resolution_clock::now() - start;
+    auto time_spent = std::chrono::high_resolution_clock::now() - start;
     std::cout << "time spent for this motion is " << time_spent << std::endl;
     std::cout << "Motion finished" << std::endl;
   } catch (const franka::Exception& e) {
