@@ -48,9 +48,13 @@ int main(int argc, char** argv) {
               << "Press Enter to continue..." << std::endl;
     std::cin.ignore();
     auto start = std::chrono::high_resolution_clock::now();
+    auto stt = std::chrono::duration_cast<std::chrono::seconds>(start);
+
+    std::cout << "Time spent:  " << stt.count() << std::endl;
     robot.control(motion_generator);
     auto end = std::chrono::high_resolution_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+
     std::cout << "Motion finished" << diff.count() << std::endl;
     std::cout << "Motion finished" << diff.count() << std::endl;
     std::cout << "Time spent:  " << diff.count() << std::endl;
