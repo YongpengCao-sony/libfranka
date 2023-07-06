@@ -48,19 +48,11 @@ int main(int argc, char** argv) {
               << "Press Enter to continue..." << std::endl;
     std::cin.ignore();
     auto start = std::chrono::high_resolution_clock::now();
-    auto start1 = std::clock();
-    auto nanosec = start.time_since_epoch();
-    std::cout << " nanoseconds since epoch\n";
     robot.control(motion_generator);
     auto end = std::chrono::high_resolution_clock::now();
-    auto end1 = std::clock();
-    double times = (std::clock() - start1) / CLOCKS_PER_SEC;
-    std::cout << "time spent is: " << times << std::endl;
+    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-    auto diff = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-
-    std::cout << "Motion finished" << diff.count() << std::endl;
-    std::cout << "Motion finished" << diff.count() << std::endl;
+    std::cout << "Motion finished" << std::endl;
     std::cout << "Time spent:  " << diff.count() << std::endl;
   } catch (const franka::Exception& e) {
     std::cout << e.what() << std::endl;
