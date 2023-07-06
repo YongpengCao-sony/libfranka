@@ -50,10 +50,10 @@ int main(int argc, char** argv) {
     auto start = std::chrono::high_resolution_clock::now();
     robot.control(motion_generator);
     auto end = std::chrono::high_resolution_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     std::cout << "Motion finished" << std::endl;
-    std::cout << "Time spent:  " << diff.count() << std::endl;
+    std::cout << "Time spent:  " << diff.count() / 1000000 << std::endl;
   } catch (const franka::Exception& e) {
     std::cout << e.what() << std::endl;
     return -1;
