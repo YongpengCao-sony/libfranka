@@ -49,11 +49,10 @@ int main(int argc, char** argv) {
     std::cin.ignore();
     auto start = std::chrono::high_resolution_clock::now();
     robot.control(motion_generator);
-    auto time_spent = std::chrono::high_resolution_clock::now() - start;
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
-    std::cout << "Time spent:  " << diff.count() << std::endl;
     std::cout << "Motion finished" << std::endl;
+    std::cout << "Time spent:  " << diff.count() << std::endl;
   } catch (const franka::Exception& e) {
     std::cout << e.what() << std::endl;
     return -1;
